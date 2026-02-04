@@ -1,0 +1,21 @@
+<div style="text-align: center; font-family: sans-serif; padding: 50px;">
+    <h2>Valentine Link Generator</h2>
+    <input type="text" id="targetName" placeholder="Enter Name"><br><br>
+    <select id="stickerSelect">
+        <option value="1">Cat Sticker</option>
+        <option value="2">Bear Sticker</option>
+        <option value="3">Funny Cat</option>
+    </select><br><br>
+    <button onclick="generate()">Generate Link</button>
+    <p id="result"></p>
+</div>
+
+<script>
+function generate() {
+    const name = document.getElementById('targetName').value;
+    const sticker = document.getElementById('stickerSelect').value;
+    const baseUrl = "https://medizem.github.io/my-valentine/";
+    const finalUrl = `${baseUrl}?name=${encodeURIComponent(name)}&sticker=${sticker}`;
+    document.getElementById('result').innerHTML = `Copy this link: <br> <a href="${finalUrl}">${finalUrl}</a>`;
+}
+</script>
