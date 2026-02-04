@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine?</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fce4ec;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+        img {
+            width: 150px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #d81b60;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        .buttons {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            min-height: 100px;
+        }
+        button {
+            padding: 12px 25px;
+            font-size: 18px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        #yesBtn {
+            background-color: #ff4081;
+            color: white;
+        }
+        #noBtn {
+            background-color: #e0e0e0;
+            color: #757575;
+            position: relative;
+        }
+        .success-content {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="mainContainer">
+        <div id="questionContent">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNwSULPk2m/giphy.gif" alt="cute cat">
+            <h1 id="mainTitle">nirali, will you be my valentine?</h1>
+            <div class="buttons">
+                <button id="yesBtn">Yes</button>
+                <button id="noBtn">No</button>
+            </div>
+            <p id="noMsg" style="font-size: 12px; color: #999; margin-top: 15px;"></p>
+        </div>
+
+        <div id="successContent" class="success-content">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/UMfM9VfO5i9q/giphy.gif" alt="happy cat">
+            <h1>YAY! ❤️ See you on the 14th!</h1>
+        </div>
+    </div>
+
+    <script>
+        const yesBtn = document.getElementById('yesBtn');
+        const noBtn = document.getElementById('noBtn');
+        const questionContent = document.getElementById('questionContent');
+        const successContent = document.getElementById('successContent');
+        const noMsg = document.getElementById('noMsg');
+
+        let yesSize = 18;
+        let clickCount = 0;
+
+        const messages = [
+            "No? seems a bit shy 🙄",
+            "Are you sure?",
+            "Really sure??",
+            "Think about it again!",
+            "Last chance...",
+            "Don't do this to me 😭",
+            "I'm gonna cry..."
+        ];
+
+        noBtn.addEventListener('click', () => {
+            clickCount++;
+            
+            // كبر زرار Yes
+            yesSize += 15;
+            yesBtn.style.fontSize = yesSize + 'px';
+            yesBtn.style.padding = (yesSize/2) + 'px ' + yesSize + 'px';
+
+            // بدل الميساج اللي تحت
+            if (clickCount < messages.length) {
+                noMsg.innerText = messages[clickCount - 1];
+            } else {
+                noMsg.innerText = messages[messages.length - 1];
+            }
+            
+            // صغر زرار No شوية
+            let noSize = 18 - clickCount;
+            if (noSize > 5) {
+                noBtn.style.fontSize = noSize + 'px';
+            }
+        });
+
+        yesBtn.addEventListener('click', () => {
+            questionContent.style.display = 'none';
+            successContent.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
