@@ -1,21 +1,89 @@
-<div style="text-align: center; font-family: sans-serif; padding: 50px;">
-    <h2>Valentine Link Generator</h2>
-    <input type="text" id="targetName" placeholder="Enter Name"><br><br>
-    <select id="stickerSelect">
-        <option value="1">Cat Sticker</option>
-        <option value="2">Bear Sticker</option>
-        <option value="3">Funny Cat</option>
-    </select><br><br>
-    <button onclick="generate()">Generate Link</button>
-    <p id="result"></p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Link Generator</title>
+    <style>
+        body { font-family: -apple-system, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .admin-card { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 90%; max-width: 450px; text-align: center; }
+        h2 { color: #d63384; margin-bottom: 20px; }
+        input { width: 80%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; margin-bottom: 20px; font-size: 1rem; }
+        
+        .sticker-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 20px; }
+        .sticker-option { border: 3px solid transparent; border-radius: 10px; cursor: pointer; transition: 0.3s; padding: 5px; }
+        .sticker-option img { width: 100%; border-radius: 5px; }
+        .sticker-option.selected { border-color: #ff4d6d; background: #fff0f3; }
+
+        .gen-btn { background: #ff4d6d; color: white; border: none; padding: 12px 25px; border-radius: 10px; font-weight: bold; cursor: pointer; width: 100%; font-size: 1rem; }
+        #result { margin-top: 20px; word-break: break-all; background: #f8f9fa; padding: 15px; border-radius: 10px; display: none; }
+        .copy-btn { background: #007aff; color: white; border: none; padding: 8px 15px; border-radius: 5px; margin-top: 10px; cursor: pointer; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="admin-card">
+    <h2>Create Valentine Link 💌</h2>
+    
+    <input type="text" id="targetName" placeholder="Enter Girl's Name">
+    
+    <p style="font-weight: bold; color: #555;">Select a Sticker:</p>
+    <div class="sticker-grid">
+        <div class="sticker-option selected" onclick="selectSticker('1', this)">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/c76IJLufpNwSULPk2m/giphy.gif">
+        </div>
+        <div class="sticker-option" onclick="selectSticker('2', this)">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/KztT2c4u8mYYUiMKdJ/giphy.gif">
+        </div>
+        <div class="sticker-option" onclick="selectSticker('3', this)">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueGZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4bmZ4JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1n/MDJ9IbMvC0Xv2/giphy.gif">
+        </div>
+    </div>
+
+    <button class="gen-btn" onclick="generate()">Generate & Copy Link</button>
+
+    <div id="result">
+        <p id="urlText" style="font-size: 0.8rem; color: #666;"></p>
+        <button class="copy-btn" onclick="copyLink()">Copy to Clipboard 📋</button>
+    </div>
 </div>
 
 <script>
-function generate() {
-    const name = document.getElementById('targetName').value;
-    const sticker = document.getElementById('stickerSelect').value;
-    const baseUrl = "https://medizem.github.io/my-valentine/";
-    const finalUrl = `${baseUrl}?name=${encodeURIComponent(name)}&sticker=${sticker}`;
-    document.getElementById('result').innerHTML = `Copy this link: <br> <a href="${finalUrl}">${finalUrl}</a>`;
-}
+    let selectedSticker = '1';
+
+    function selectSticker(id, element) {
+        selectedSticker = id;
+        // حيد الاختيار من الجميع
+        document.querySelectorAll('.sticker-option').forEach(opt => opt.classList.remove('selected'));
+        // زيد الاختيار للعنصر اللي تضغط عليه
+        element.classList.add('selected');
+    }
+
+    function generate() {
+        const name = document.getElementById('targetName').value.trim();
+        if (!name) {
+            alert("Please enter a name!");
+            return;
+        }
+        
+        // جلب رابط الصفحة الرئيسية (index.html)
+        const baseUrl = window.location.href.replace('admin.html', '');
+        const finalUrl = `${baseUrl}?name=${encodeURIComponent(name)}&sticker=${selectedSticker}`;
+        
+        const resultDiv = document.getElementById('result');
+        const urlText = document.getElementById('urlText');
+        
+        resultDiv.style.display = 'block';
+        urlText.innerText = finalUrl;
+    }
+
+    function copyLink() {
+        const urlText = document.getElementById('urlText').innerText;
+        navigator.clipboard.writeText(urlText).then(() => {
+            alert("Link copied! Now send it to her 🚀");
+        });
+    }
 </script>
+
+</body>
+</html>
